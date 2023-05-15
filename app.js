@@ -2,11 +2,21 @@ const express = require('express')
 const app = express()
 const port = 3000
 const fs = require("fs")
+const path = require("path");
+app.set('views','./views');
+app.set('view engine','ejs');
 
 // print the string
 app.get('/', (req, res) => {
-  res.send('Hello World!!!')
+  res.sendFile(path.join(__dirname,"./views/home.html"))
 })
+
+// print student informations
+app.get('/students', (req, res) => {
+  res.send([{ name: "Malo Bonnotte", school: "EPF" }, { name: "Harry Potter", school: "Poudlard"}])
+
+})
+
 
 // print the dictionary
 app.get('/students', (req, res) => {
@@ -65,3 +75,4 @@ app.post("/students/create", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
