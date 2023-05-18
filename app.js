@@ -11,20 +11,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname,"./views/home.html"))
 })
 
-// print student informations
 app.get('/students', (req, res) => {
+  res.render("students", {students: [{ name: "Malo Bonnotte", school:"EPF"}, { name: "Harry Potter", school: "Poudlard"}]})
+})
+
+
+// print student informations
+app.get('/api/students', (req, res) => {
   res.send([{ name: "Malo Bonnotte", school: "EPF" }, { name: "Harry Potter", school: "Poudlard"}])
 
 })
 
-
-// print the dictionary
-app.get('/students', (req, res) => {
-  res.send([{ name: "Eric Burel",
-              school: "EPF" },
-            { name: "HarryPotter",
-              school: "Poudlard"}])
-})
 
 // print the csv file 
 app.get('/csv_webProgramming', (req, res) => {
@@ -57,7 +54,7 @@ app.get("/students-csv-parse", (req, res) => {
 
 app.use(express.json())
 
-app.post("/students/create", (req, res) => {
+app.post("/api/students/create", (req, res) => {
   console.log(req.body);
   const csvLine =`\r\n${req.body.name};${req.body.school}`;
   const stream = fs.writeFile(
