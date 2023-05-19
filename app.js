@@ -4,6 +4,7 @@ const fs = require("fs")
 const path = require("path");
 const app = require('express')()
 const basicAuth = require('express-basic-auth')
+const bcrypt = require("bcrypt");
 
 app.set('views','./views');
 app.set('view engine','ejs');
@@ -11,21 +12,45 @@ app.use(express.static('public'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
+const clearPasswordAuthorizer = (username, password, cb) => {
+  parseCsvWithHeader("./users.csv", (err, users) => {
+    console.log(users);
+    const storedUser = users.find((possibleUser) => {
+      return basicAuth.safeCompare(username, possibleUser.username);
+    });
+    if (!storedUser || !basicAuth.safeCompare(password, storedUser.password)) {
+      cb(null, false);
+    } else {
+      cb(null, true);
+    }
+  });
+};
+
+const encryptedPasswordAuthorizer = (username, password, cb) => {
+  parseCsvWithHeader("./users.csv", (err, users) => {
+    const storedUser = users.find((possibleUser) => {
+      return basicAuth.safeCompare(possibleUser.username, username);
+    });
+    if (!storedUser) {
+      cb(null, false);
+    } else {
+      bcrypt.compare(password, storedUser.password, cb);
+    }
+  });
+};
+
 app.use(basicAuth({
-    users: { 'admin': 'supersecret' },
+    //users: { 'admin': 'supersecret' },
+    //users: { [process.env.ADMIN_USERNAME]: process.env.ADMIN_PASSWORD },
+    //authorizer: clearPasswordAuthorizer,
+    authorizer: encryptedPasswordAuthorizer,
+    authorizeAsync: true,
     challenge: true,
 }))
 
-// print the string
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,"./views/home.html"))
-})
-
-app.get('/students', (req, res) => {
-  res.render("students", {students: [{ name: "Malo Bonnotte", school:"EPF"}, { name: "Harry Potter", school: "Poudlard"}]})
-})
-
-
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/home.html"));
+});
 
 // print the csv file 
 app.get('/csv_webProgramming', (req, res) => {
@@ -35,23 +60,23 @@ app.get('/csv_webProgramming', (req, res) => {
   })
 })
 
-const getStudentsFromCsvfile = (cb) => {
+const parseCsvWithHeader = (filepath, cb) => {
   const rowSeparator = "\n";
-  const cellSeparator = ",";
-  fs.readFile("./web_programming_test.csv", "utf8", (err, data) => {
+  const cellSeparator = ";";
+  fs.readFile(filepath, "utf8", (err, data) => {
     const rows = data.split(rowSeparator);
     const [headerRow, ...contentRows] = rows;
     const header = headerRow.split(cellSeparator);
 
-    const students = contentRows.map((row) => {
+    const items = contentRows.map((row) => {
       const cells = row.split(cellSeparator);
-      const student = {
+      const item = {
         [header[0]]: cells[0],
         [header[1]]: cells[1],
       };
-      return student;
+      return item;
     });
-    return cb(null, students);
+    return cb(null, items);
   });
 };
 
