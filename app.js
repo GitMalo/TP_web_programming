@@ -48,6 +48,18 @@ app.use(basicAuth({
     challenge: true,
 }))
 
+app.post("/api/login", (req, res) => {
+  console.log("current cookies:", req.cookies);
+  const token = "FOOBAR";
+  const tokenCookie = {
+    path: "/",
+    httpOnly: true,
+    expires: new Date(Date.now() + 60 * 60 * 1000),
+  };
+  res.cookie("auth-token", token, tokenCookie);
+  res.send("token setted");
+});
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/home.html"));
 });
