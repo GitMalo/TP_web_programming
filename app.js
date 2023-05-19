@@ -1,8 +1,8 @@
 const express = require('express')
-const app = express()
 const port = 3000
 const fs = require("fs")
 const path = require("path");
+
 app.set('views','./views');
 app.set('view engine','ejs');
 app.use(express.static('public'));
@@ -28,13 +28,12 @@ app.get('/csv_webProgramming', (req, res) => {
   })
 })
 
-// print the csv file structured
-app.get("/students-csv-parse", (req, res) => {
-  const rowSeparator = "\r\n";
+const getStudentsFromCsvfile = (cb) => {
+  const rowSeparator = "\n";
   const cellSeparator = ",";
   fs.readFile("./web_programming_test.csv", "utf8", (err, data) => {
     const rows = data.split(rowSeparator);
-    const[headerRow, ...contentRows] = rows;
+    const [headerRow, ...contentRows] = rows;
     const header = headerRow.split(cellSeparator);
 
     const students = contentRows.map((row) => {
@@ -45,9 +44,9 @@ app.get("/students-csv-parse", (req, res) => {
       };
       return student;
     });
-    res.send(students);
+    return cb(null, students);
   });
-});
+};
 
 
 app.get("/students/create", (req, res) => {
@@ -73,6 +72,7 @@ app.post("/students/create", (req, res) => {
       }
     });
   });
+
   
 app.get("/api/students", (req, res) => {
     getStudentsFromCsvfile((err, students) => {
