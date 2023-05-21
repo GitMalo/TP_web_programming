@@ -68,42 +68,67 @@ app.get("/", (req, res) => {
 app.get('/csv_webProgramming', (req, res) => {
   fs.readFile('./web_programming_test.csv', 'utf-8', (err, data) =>{
     res.send(data)
-    console.log('Data from csv file is load')
+    //console.log('Data from csv file is load')
   })
 })
 
-const parseCsvWithHeader = (filepath, cb) => {
-  const rowSeparator = "\n";
-  const cellSeparator = ";";
-  fs.readFile(filepath, "utf8", (err, data) => {
-    const rows = data.split(rowSeparator);
-    const [headerRow, ...contentRows] = rows;
-    const header = headerRow.split(cellSeparator);
+function parseCsvWithHeader(filename, callback) {
+    const rowSeparator = "\n";
+    const cellSeparator = ",";
 
-    const items = contentRows.map((row) => {
-      const cells = row.split(cellSeparator);
-      const item = {
-        [header[0]]: cells[0],
-        [header[1]]: cells[1],
-      };
-      return item;
+    fs.readFile(filename, 'utf8', (err, data) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        const rows = data.split(rowSeparator);
+        // first row is a header I isolate it
+        const [headerRow, ...contentRows] = rows;
+        const header = headerRow.split(cellSeparator);
+
+        const users = contentRows.map((row) => {
+            const cells = row.split(cellSeparator);
+            const user = {
+                [header[0]]: cells[0],
+                [header[1]]: cells[1],
+            };
+            return user;
+        });
+
+        callback(null, users);
+        console.log(users)
     });
-    return cb(null, items);
-  });
-};
+}
 
 
 app.get("/students/create", (req, res) => {
   res.render("create-student");
 });
 
+const getStudentsFromCsvfile = (cb) => {
+  parseCsvWithHeader("./web_programming_test.csv", cb);
+};
+
 const storeStudentInCsvFile = (student, cb) => {
-    const csvLine = `\n${student.name};${student.school}`;
+    const csvLine = `\n${student.name},${student.school}`;
     console.log(csvLine);
     fs.writeFile("./web_programming_test.csv", csvLine, { flag: "a" }, (err) => {
       cb(err, "ok");
     });
   };
+  
+app.get("/students", (req, res) => {
+  getStudentsFromCsvfile((err, students) => {
+    if (err) {
+      console.error(err);
+      res.send("ERROR");
+    }
+    res.render("students", {
+      students,
+    });
+  });
+}); 
 
 app.post("/students/create", (req, res) => {
     console.log(req.body);
