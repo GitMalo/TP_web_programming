@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 app.get('/csv_webProgramming', (req, res) => {
   fs.readFile('./web_programming_test.csv', 'utf-8', (err, data) =>{
     res.send(data)
-    //console.log('Data from csv file is load')
+    console.log('Data from csv file is load')
   })
 })
 
@@ -97,7 +97,7 @@ function parseCsvWithHeader(filename, callback) {
         });
 
         callback(null, users);
-        console.log(users)
+        //console.log(users)
     });
 }
 
