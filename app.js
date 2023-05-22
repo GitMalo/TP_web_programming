@@ -64,6 +64,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/home.html"));
 });
 
+app.get('/students/data', function(req, res) {
+  res.render('students_data');
+});
+
 // print the csv file 
 app.get('/csv_webProgramming', (req, res) => {
   fs.readFile('./web_programming_test.csv', 'utf-8', (err, data) =>{
