@@ -16,7 +16,7 @@ git clone https://github.com/EPF-MDE/MMMDE4IN19-22-EPFBOOK-bonnotte-malo.git
 
 2. Navigate to the project directory:
 
-cd MMMDE4IN19-22-EPFBOOK-bonnotte-malo
+cd MMMDE4IN19-22-EPFBOOK-bonnotte-malo-main
 
 3. Install Node.js if you haven't already. You can download it from the official website: [Node.js](https://nodejs.org)
 
