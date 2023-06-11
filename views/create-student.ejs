@@ -1,7 +1,29 @@
-<form method="POST"><br>
-  <label for="name">Name :</label><br>
-  <input type="text" id="name" name="name"><br>
-  <label for="school">School :</label><br>
-  <input type="text" id="school" name="school"><br>
-  <input type="submit" value="Submit">
-</form>
+<html>
+<head>
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Create a Student</h1>
+        <form class="student-form" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="school">School:</label>
+            <input type="text" id="school" name="school">
+
+            <input type="submit" value="Submit" class="submit-button">
+            
+        </form>
+        <button id="MenuButton">Menu</button>
+        <script>
+            var menuButton = document.querySelector('#MenuButton');
+
+            menuButton.addEventListener('click', function() {
+                window.location.href = "http://localhost:3000";
+            });
+        </script>
+    </div>
+</body>
+</html>
+

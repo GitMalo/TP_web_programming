@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
   </head>
   <body>
-    
+    <h1>Bar chart of Stress busters</h1>
     <div id="chart"></div>
 
     <script>
@@ -52,6 +52,14 @@
         });
       });
     </script>
+    <button id="MenuButton">Menu</button>
+        <script>
+            var menuButton = document.querySelector('#MenuButton');
+
+            menuButton.addEventListener('click', function() {
+                window.location.href = "http://localhost:3000";
+            });
+        </script>
   </body>
 </html>
 

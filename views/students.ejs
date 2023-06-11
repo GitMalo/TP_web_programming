@@ -4,37 +4,49 @@
     <title>Students</title>
   </head>
   <body>
-    <h1>
-      Students
-    </h1>
-    <ul id="studentList"></ul>
+    <div class="container2">
+      <h1>
+        Students
+      </h1>
+      <ul id="studentList"></ul>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function (event) {
-        var link = document.createElement('a');
-        link.setAttribute('href', '/students/create');
-        link.textContent = 'Create Student';
+      <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+          var link = document.createElement('a');
+          link.setAttribute('href', '/students/create');
+          link.textContent = 'Create Student';
 
-        var list = document.getElementById('studentList');
-        list.parentNode.insertBefore(link, list);
-      });
-    </script>
+          var list = document.getElementById('studentList');
+          list.parentNode.insertBefore(link, list);
+        });
+      </script>
 
-    <% students.forEach(function(student) { %>
-      <li>
-        <%= student.name %> | <%= student.school %>
-      </li>
-    <% }) %>
+      <% students.forEach(function(student, index) { %>
+        <li>
+          <a href="/students/<%= index%>"><%= student.name %> | <%= student.school %></a>
+        </li>
+      <% }) %>
 
-    <hr> 
+      <hr> 
 
-    <p class="long-text">
-      Les Représentants du Peuple Français, constitués en Assemblée Nationale, considérant que l'ignorance, l'oubli ou le mépris des droits de l'Homme sont les seules causes des malheurs publics et de la corruption des Gouvernements, ont résolu d'exposer, dans une Déclaration solennelle, les droits naturels, inaliénables et sacrés de l'Homme, afin que cette Déclaration, constamment présente à tous les Membres du corps social, leur rappelle sans cesse leurs droits et leurs devoirs ; afin que les actes du pouvoir législatif, et ceux du pouvoir exécutif, pouvant être à chaque instant comparés avec le but de toute institution politique, en soient plus respectés ; afin que les réclamations des citoyens, fondées désormais sur des principes simples et incontestables, tournent toujours au maintien de la Constitution et au bonheur de tous.
-    </p>
-    
-    <button id="test">
-      Click me
-    </button>
-    <script type="text/javascript" src="/students.js"></script>
+      <p class="long-text">
+        Les Représentants du Peuple Français, constitués en Assemblée Nationale, considérant que l'ignorance, l'oubli ou le mépris des droits de l'Homme sont les seules causes des malheurs publics et de la corruption des Gouvernements, ont résolu d'exposer, dans une Déclaration solennelle, les droits naturels, inaliénables et sacrés de l'Homme, afin que cette Déclaration, constamment présente à tous les Membres du corps social, leur rappelle sans cesse leurs droits et leurs devoirs ; afin que les actes du pouvoir législatif, et ceux du pouvoir exécutif, pouvant être à chaque instant comparés avec le but de toute institution politique, en soient plus respectés ; afin que les réclamations des citoyens, fondées désormais sur des principes simples et incontestables, tournent toujours au maintien de la Constitution et au bonheur de tous.
+      </p>
+      
+      <button id="test">
+        Click me
+      </button>
+      <script type="text/javascript" src="/students.js"></script>
+      
+      <button id="MenuButton">Menu</button>
+      <script>
+        var menuButton = document.querySelector('#MenuButton');
+      
+        MenuButton.addEventListener('click', function() {
+          window.location.href = "http://localhost:3000";
+        });
+      </script>
+    </div>
   </body>
 </html>
+

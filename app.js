@@ -70,7 +70,7 @@ app.get('/students/data', function(req, res) {
 
 // print the csv file 
 app.get('/csv_webProgramming', (req, res) => {
-  fs.readFile('./web_programming_test.csv', 'utf-8', (err, data) =>{
+  fs.readFile('./student_school.csv', 'utf-8', (err, data) =>{
     res.send(data)
     console.log('Data from csv file is load')
   })
@@ -87,7 +87,7 @@ function parseCsvWithHeader(filename, callback) {
         }
 
         const rows = data.split(rowSeparator);
-        // first row is a header I isolate it
+        
         const [headerRow, ...contentRows] = rows;
         const header = headerRow.split(cellSeparator);
 
@@ -111,13 +111,13 @@ app.get("/students/create", (req, res) => {
 });
 
 const getStudentsFromCsvfile = (cb) => {
-  parseCsvWithHeader("./web_programming_test.csv", cb);
+  parseCsvWithHeader("./student_school.csv", cb);
 };
 
 const storeStudentInCsvFile = (student, cb) => {
     const csvLine = `\n${student.name},${student.school}`;
     console.log(csvLine);
-    fs.writeFile("./web_programming_test.csv", csvLine, { flag: "a" }, (err) => {
+    fs.writeFile("./student_school.csv", csvLine, { flag: "a" }, (err) => {
       cb(err, "ok");
     });
   };
@@ -164,6 +164,56 @@ app.get("/api/students", (req, res) => {
       }
     });
   });
+  
+app.get('/students/:id', (req, res) => {
+  const id_student = parseInt(req.params.id);
+  getStudentsFromCsvfile((err, students) => {
+    const student = students[id_student];
+    res.render('student_details', {student});
+  });
+});
+
+const update_one_student = (student_updated, res) => {
+  fs.readFile("./student_school.csv", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    if (data) {
+      const Excel = data.split("\n");
+      const updatedExcel = Excel.map((row, index) => {  
+        if (Number(index-1) === Number(student_updated.id)) {
+          console.log(index , student_updated.id);
+          console.log(row);
+          return `${student_updated.name},${student_updated.school}`;
+        } else {
+          return row;
+        }
+      });
+      console.log(updatedExcel);
+      const updatedCsv = updatedExcel.join("\n");
+      fs.writeFile("./student_school.csv", updatedCsv, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("Student updated successfully!");
+        res.redirect(`/students/${student_updated.id}`);
+      });
+    }
+  });
+};
+
+
+
+app.post("/students/:id", (req, res) => {
+  const id = req.params.id;
+  student_updated = req.body;
+  student_updated.id = id;
+  console.log(student_updated);
+  update_one_student(student_updated, res);
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

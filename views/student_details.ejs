@@ -1,0 +1,32 @@
+<html>
+<head>
+  <title>Student Details</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Student Details</h1>
+  <p>Name: <%= student.name %></p>
+  <p>School: <%= student.school %></p>
+  
+  <div class="container">
+  <h1>Update a student</h1>
+
+    <form class="student-form" method="POST">
+        <label for="name">Name :</label>
+        <input type="text" id="name" name="name">
+        <label for="school">School :</label>
+        <input type="text" id="school" name="school">
+        <input type="submit" value="Submit" class="submit-button">
+    </form>
+  <button id="MenuButton">Menu</button>
+  </div>
+  <script>
+  var menuButton = document.querySelector('#MenuButton');
+  
+  MenuButton.addEventListener('click', function() {
+  window.location.href = "http://localhost:3000";
+  });
+  </script>
+</body>
+</html>
+

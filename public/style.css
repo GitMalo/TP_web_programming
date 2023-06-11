@@ -1,15 +1,129 @@
+.container {
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFE582;
+}
+
+.container2 {
+    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFE582;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.student-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+
+.submit-button,
+#MenuButton {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.submit-button:hover,
+#MenuButton:hover {
+    background-color: #555;
+}
+
+.menu {
+    background-color: #FFE582;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.menu-label {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.menu-items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.menu li {
+    margin-right: 10px;
+}
+
+.menu li:last-child {
+    margin-right: 0;
+}
+
+.menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333333;
+}
+
+.menu a:hover {
+    background-color: #dddddd;
+}
+
 body {
-    background-color: cornflowerblue;
-  }
-  main {
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  /* Hide long text on mobile phones*/
-  @media (max-width: 1000px) {
-    p.long-text {
-      display: none;
-    }
-  }
-  
+    font-family: Arial, sans-serif;
+    background-color: #FFE582;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    color: #666;
+    text-align: center;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.long-text {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #555;
+}
+
