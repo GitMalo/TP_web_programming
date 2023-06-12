@@ -30,9 +30,9 @@ This will install all the necessary packages and save them to your package.json 
 
 Once the dependencies are installed, you can start the application by running the following command:
 
-npm start
+npm run dev
 
-After running the npm start command, the application should start, and you will see output in the terminal indicating that the server is running. By default, the application will be accessible at http://localhost:3000 in your web browser.
+After running the npm run dev command, the application should start, and you will see output in the terminal indicating that the server is running. By default, the application will be accessible at http://localhost:3000 in your web browser.
 
 # Exercise 0: Consume an Existing API
 
